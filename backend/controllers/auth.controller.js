@@ -21,17 +21,15 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     //https://avatar.iran.liara.run/public/boy?username=Scott
 
-    const boyProfilePic =
-      "https://avatar.iran.liara.run/public/boy?username=${username}";
-    const girlProfilePic =
-      "https://avatar.iran.liara.run/public/girl?username=${username}";
+    const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
+    const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
 
     const newUser = new User({
       fullName,
       username,
       password: hashedPassword,
       gender,
-      profilPic: gender == "Male" ? boyProfilePic : girlProfilePic,
+      profilePic: gender == "male" ? boyProfilePic : girlProfilePic,
     });
 
     if (newUser) {
@@ -43,7 +41,7 @@ export const signup = async (req, res) => {
         _id: newUser._id,
         fullName: newUser.fullName,
         username: newUser.username,
-        profilePicture: newUser.profilePicture,
+        profilePic: newUser.profilePic,
       });
     } else {
       res.status(400).json({ error: "Invalid User Data" });
@@ -71,7 +69,7 @@ export const login = async (req, res) => {
       _id: user._id,
       fullName: user.fullName,
       username: user.username,
-      profilePicture: user.profilePicture,
+      profilePic: user.profilePic,
     });
   } catch (error) {
     console.log("error in signup controller", error.message);
